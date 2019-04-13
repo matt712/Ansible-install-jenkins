@@ -1,0 +1,15 @@
+---
+- hosts: webservers
+  remote_user: mzgadd
+  tasks: 
+    - name: test connection
+      ping: 
+    - name: install jenkins
+      script: ./installjenkins.sh
+    - name: get admin password
+      fetch: 
+        src: /var/lib/jenkins/secrets/initialAdminPassword
+        dest: /home/mzgadd/
+        flat: yes
+    - name: display admin password
+      debug: msg="The initial admin password is {{lookup('file','/home/mzgadd/initialAdminPassword/')}}" 
